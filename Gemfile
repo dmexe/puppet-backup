@@ -6,4 +6,5 @@ gem 'rake'
 gem 'puppet', puppetversion
 gem 'puppet-lint'
 gem 'puppetlabs_spec_helper'
+gem 'puppet-blacksmith'
 

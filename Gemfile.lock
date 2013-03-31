@@ -7,11 +7,19 @@ GEM
       json_pure
     json_pure (1.7.7)
     metaclass (0.0.1)
+    mime-types (1.22)
     mocha (0.13.3)
       metaclass (~> 0.0.1)
+    nokogiri (1.5.9)
     puppet (3.1.1)
       facter (~> 1.6)
       hiera (~> 1.0)
+    puppet-blacksmith (1.0.4)
+      nokogiri
+      puppet (>= 2.7.16)
+      puppetlabs_spec_helper (>= 0.3.0)
+      rake
+      rest-client
     puppet-lint (0.3.2)
     puppetlabs_spec_helper (0.4.1)
       mocha (>= 0.10.5)
@@ -19,6 +27,8 @@ GEM
       rspec (>= 2.9.0)
       rspec-puppet (>= 0.1.1)
     rake (10.0.4)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -35,6 +45,7 @@ PLATFORMS
 
 DEPENDENCIES
   puppet (~> 3.1)
+  puppet-blacksmith
   puppet-lint
   puppetlabs_spec_helper
   rake
