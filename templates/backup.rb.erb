@@ -1,0 +1,18 @@
+Backup::Logger.configure do
+  console.quiet      = true
+  syslog.enabled     = false
+  logfile.enabled    = true
+  logfile.max_bytes  = 500_000
+  logfile.log_path   = '/var/log/backup'
+end
+
+Backup::Storage::S3.defaults do |s3|
+  s3.access_key_id     = "<%= s3_access_key_id %>"
+  s3.secret_access_key = "<%= s3_secret_access_key %>"
+  s3.region            = "<%= s3_region %>"
+  s3.bucket            = "<%= s3_bucket %>"
+end
+
+Dir[File.join(File.dirname(Config.config_file), "models", "*.rb")].each do |model|
+  instance_eval(File.read(model))
+end

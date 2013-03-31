@@ -1,0 +1,4 @@
+#!/bin/sh
+
+MODELS=$(cd /etc/backup/models && ls -1 | xargs -I '{}' basename '{}' .rb | tr "\n" "," )
+<%= command %> perform --root_path /etc/backup --config_file /etc/backup/backup.rb  -t $MODELS $@
