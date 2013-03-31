@@ -1,9 +1,9 @@
 name    'dmexe-backup'
-version '0.1.0'
+version '0.1.1'
 source 'http://github.com/dima-exe/puppet-backup'
 author 'Dmitry Galinsky'
 license 'MIT'
 summary 'Backup with backup gem'
 project_page 'http://github.com/dima-exe/puppet-backup'
 
-dependency 'puppetlabs/stdlib'
+dependency 'puppetlabs/stdlib', '>= 0'
