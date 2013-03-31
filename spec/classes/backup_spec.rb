@@ -71,6 +71,25 @@ describe "backup" do
     end
   end
 
+  context "when $mongodb" do
+    let(:params) { {
+      :mongodb  => {
+        "foo" => {
+          "database" => "database",
+          "password" => "password"
+        },
+        "bar" => {
+          "database" => "database",
+          "password" => "password"
+        }
+      }
+    } }
+
+    %w{ foo bar }.each do |n|
+      it { should contain_resource("Backup::Mongodb[#{n}]") }
+    end
+  end
+
   context "when $postgresql" do
     let(:params) { {
       :postgresql  => {

@@ -2,6 +2,7 @@
 class backup (
   $mysql      = undef,
   $postgresql = undef,
+  $mongodb    = undef,
   $files      = undef
 ) {
   include 'backup::config'
@@ -62,5 +63,9 @@ class backup (
 
   if $files != undef {
     create_resources('backup::file', $files)
+  }
+
+  if $mongodb != undef {
+    create_resources('backup::mongodb', $mongodb)
   }
 }
