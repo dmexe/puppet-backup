@@ -1,5 +1,5 @@
 name    'dmexe-backup'
-version '0.2.0'
+version '0.2.1'
 source 'http://github.com/dima-exe/puppet-backup'
 author 'Dmitry Galinsky'
 license 'MIT'
