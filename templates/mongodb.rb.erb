@@ -1,18 +1,18 @@
-Backup::Model.new(:<%= backup_name %>, '<%= backup_name %>') do
-  <%- [database].flatten.sort.each do |db| -%>
+Backup::Model.new(:<%= @backup_name %>, '<%= @backup_name %>') do
+  <%- [@database].flatten.sort.each do |db| -%>
   database MongoDB do |db|
     db.name               = "<%= db %>"
-    db.username           = "<%= user %>"
-    db.password           = "<%= password %>"
-    db.host               = "<%= host %>"
-    db.port               = <%= port %>
+    db.username           = "<%= @user %>"
+    db.password           = "<%= @password %>"
+    db.host               = "<%= @host %>"
+    db.port               = <%= @port %>
   end
 
   <%- end -%>
   compress_with Gzip
 
   store_with S3 do |s3|
-    s3.path = "<%= name %>/<%= fqdn %>/"
+    s3.path = "<%= @name %>/<%= @fqdn %>/"
     s3.keep = 10
   end
 end

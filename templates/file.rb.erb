@@ -1,6 +1,6 @@
-Backup::Model.new(:<%= backup_name %>, '<%= backup_name %>') do
+Backup::Model.new(:<%= @backup_name %>, '<%= @backup_name %>') do
   archive :files do |archive|
-  <%- [path].flatten.sort.each do |p| -%>
+  <%- [@path].flatten.sort.each do |p| -%>
     archive.add '<%= p %>'
   <%- end -%>
   end
@@ -8,7 +8,7 @@ Backup::Model.new(:<%= backup_name %>, '<%= backup_name %>') do
   compress_with Gzip
 
   store_with S3 do |s3|
-    s3.path = "<%= name %>/<%= fqdn %>/"
+    s3.path = "<%= @name %>/<%= @fqdn %>/"
     s3.keep = 10
   end
 end

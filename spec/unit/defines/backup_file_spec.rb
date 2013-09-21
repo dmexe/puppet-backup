@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "backup::file" do
+describe "backup::file", :type => :define do
   let(:title) { 'title' }
   let(:file) { '/etc/backup/models/title_files.rb' }
   let(:default_params) { { :path => '/tmp' } }

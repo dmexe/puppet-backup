@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "backup::postgresql" do
+describe "backup::postgresql", :type => :define do
   let(:title) { 'title' }
   let(:file) { '/etc/backup/models/title_postgresql.rb' }
   let(:default_params) { { :database => "database", :password => 'password' } }

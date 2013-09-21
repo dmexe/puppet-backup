@@ -1,5 +1,13 @@
 require 'puppetlabs_spec_helper/rake_tasks'
 require 'puppet-lint/tasks/puppet-lint'
+require 'rspec-system/rake_task'
 
-task :default => [:spec, :lint]
+begin
+  require 'puppet_blacksmith/rake_tasks'
+rescue LoadError
+end
+
+task :default do
+  exec "rake -T"
+end
 

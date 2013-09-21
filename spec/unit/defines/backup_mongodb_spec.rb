@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe "backup::mysql" do
+describe "backup::mongodb", :type => :define do
   let(:title) { 'title' }
-  let(:file) { '/etc/backup/models/title_mysql.rb' }
+  let(:file) { '/etc/backup/models/title_mongodb.rb' }
   let(:default_params) { { :database => "database", :password => 'password' } }
   let(:params) { default_params }
   let(:facts) { { :fqdn => 'example.com' } }
@@ -16,9 +16,9 @@ describe "backup::mysql" do
     let(:content) { catalogue.resource('file',file).send(:parameters)[:content] }
     subject { content }
 
-    it { should be_include("database MySQL") }
+    it { should be_include("database MongoDB") }
     it { should be_include('s3.path = "title/example.com/"') }
-    it { should be_include('Backup::Model.new(:title_mysql') }
+    it { should be_include('Backup::Model.new(:title_mongodb') }
 
     context "when $database" do
       let(:params) { default_params.merge :database => "foo" }

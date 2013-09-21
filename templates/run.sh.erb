@@ -2,5 +2,5 @@
 
 MODELS=$(cd /etc/backup/models && ls -1 | xargs -I '{}' basename '{}' .rb | tr "\n" "," )
 if [ "x${MODELS}" != 'x' ] ; then
-  <%= command %> perform --root_path /etc/backup --config_file /etc/backup/backup.rb  -t $MODELS $@
+  <%= @command %> perform --root_path /etc/backup --config_file /etc/backup/backup.rb  -t $MODELS $@
 fi

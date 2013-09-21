@@ -5,7 +5,8 @@ branches:
   only:
     - master
 env:
-  - PUPPET_VERSION="3.1"
-  - PUPPET_VERSION="2.7"
-  - PUPPET_VERSION="3.2.2"
-script: "bundle exec rake SPEC_OPTS='--format documentation'"
+  - PUPPET_GEM_VERSION="3.1.0"
+  - PUPPET_GEM_VERSION="3.2.0"
+  - PUPPET_GEM_VERSION="3.3.0"
+script: "bundle exec rake spec SPEC_OPTS='--format documentation'"
+bundler_args: "--without development"

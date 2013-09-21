@@ -3,7 +3,8 @@ class backup (
   $mysql      = undef,
   $postgresql = undef,
   $mongodb    = undef,
-  $files      = undef
+  $files      = undef,
+  $ensure     = 'present'
 ) {
   include 'backup::config'
 
@@ -12,60 +13,73 @@ class backup (
   $s3_bucket            = $backup::config::s3_bucket
   $s3_region            = $backup::config::s3_region
   $command              = $backup::config::command
+  $packages             = $backup::config::packages
 
-  package{ 'backup':
-    ensure   => $backup::config::package_version,
-    provider => 'gem',
+  $backup_gem_ensure = $ensure ? {
+    'present' => $backup::config::package_version,
+    default   => 'absent'
   }
 
-  file {
-    '/etc/backup':
-      ensure  => 'directory',
-      mode    => '0700';
-    '/etc/backup/backup.rb':
-      ensure  => 'present',
-      mode    => '0600',
-      content => template('backup/backup.rb.erb');
-    '/etc/backup/models':
-      ensure  => 'directory',
-      mode    => '0700';
-    '/etc/backup/run.sh':
-      ensure  => 'present',
-      mode    => '0700',
-      content => template('backup/run.sh.erb');
-    '/etc/backup/install_dependencies.sh':
-      ensure  => 'present',
-      mode    => '0700',
-      content => template('backup/install_dependencies.sh.erb')
+  package{ $packages:
+    ensure => 'present'
+  }
+
+  package{ 'backup':
+    ensure   => $backup_gem_ensure,
+    provider => 'gem',
+    require  => Package[$packages]
   }
 
   cron{ 'backup':
-    ensure  => 'present',
+    ensure  => $ensure,
     command => '/etc/backup/run.sh',
     user    => 'root',
     minute  => 0,
     hour    => 4
   }
 
-  exec{ '/etc/backup/install_dependencies.sh':
-    refreshonly => true,
-    subscribe   => [Package['backup'],
-                    File['/etc/backup/install_dependencies.sh']]
+  if $ensure == 'present' {
+
+    file {
+      '/etc/backup':
+        ensure  => 'directory',
+        mode    => '0700';
+      '/etc/backup/backup.rb':
+        ensure  => 'present',
+        mode    => '0600',
+        content => template('backup/backup.rb.erb');
+      '/etc/backup/models':
+        ensure  => 'directory',
+        mode    => '0700';
+      '/etc/backup/run.sh':
+        ensure  => 'present',
+        mode    => '0700',
+        content => template('backup/run.sh.erb');
+    }
+
+    if $mysql != undef {
+      create_resources('backup::mysql', $mysql)
+    }
+
+    if $postgresql != undef {
+      create_resources('backup::postgresql', $postgresql)
+    }
+
+    if $files != undef {
+      create_resources('backup::file', $files)
+    }
+
+    if $mongodb != undef {
+      create_resources('backup::mongodb', $mongodb)
+    }
+
   }
 
-  if $mysql != undef {
-    create_resources('backup::mysql', $mysql)
+  if $ensure == 'absent' {
+    file { '/etc/backup':
+      ensure => 'absent',
+      force  => true
+    }
   }
 
-  if $postgresql != undef {
-    create_resources('backup::postgresql', $postgresql)
-  }
-
-  if $files != undef {
-    create_resources('backup::file', $files)
-  }
-
-  if $mongodb != undef {
-    create_resources('backup::mongodb', $mongodb)
-  }
 }
