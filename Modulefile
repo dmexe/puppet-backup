@@ -6,4 +6,4 @@ license 'MIT'
 summary 'Backup with backup gem'
 project_page 'http://github.com/dima-exe/puppet-backup'
 
-dependency 'puppetlabs/stdlib', '>= 0'
+dependency 'puppetlabs/stdlib'
